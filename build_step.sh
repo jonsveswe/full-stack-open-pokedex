@@ -1,4 +1,5 @@
 #!/bin/bash
+# Script to build the project for Render deployment. Render will run this script. 
 
 echo "Build script"
 
