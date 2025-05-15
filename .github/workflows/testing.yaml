@@ -1,7 +1,7 @@
 name: Testing stuff
 
 env: 
-  CONDITION: ${{ contains(github.event.commits.*.message, '#skip') }}
+  CONDITION: ${{ contains(join(github.event.commits.*.message), '#skip') }}
 
 on:
   push:
@@ -44,7 +44,7 @@ jobs:
         run: echo "not skipped"
 
   another_job:
-    needs: a_test_job
+    # needs: a_test_job
     if: ${{ github.env.CONDITION == 'false' }}
     runs-on: ubuntu-24.04
     steps:
