@@ -45,7 +45,7 @@ jobs:
 
   another_job:
     # needs: a_test_job
-    if: ${{ github.env.CONDITION == 'false' }}
+    if: ${{ env.CONDITION == 'false' }}
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
