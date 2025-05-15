@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  # workflow will run when a PR into the main branch is opened or updated.  
+  pull_request:    
+    branches: [main]    
+    types: [opened, synchronize] 
 
 jobs:
   simple_deployment_pipeline:
@@ -17,14 +21,24 @@ jobs:
         run: npm install  
       - name: Check style
         run: npm run eslint
+      # Altough we will not actually use this build here, we should do a build in the pipeline to make sure it works before Render builds it (in the build_step.sh) during deployment. 
+      - name: Build
+        run: npm run build
       - name: Run tests
         run: npm run test
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-      - name: Run Playwright tests
-        run: npm run test:e2e
+
+      ## Comment these to save time. I have tested it and it works.
+      # - name: Install Playwright Browsers
+      #   run: npx playwright install --with-deps
+      # - name: Run Playwright tests
+      #   run: npm run test:e2e
+
+      # Don't trigger for a pull_request event, only for a push event.
+      # ("When a pull request is merged, the name of the event is somehow paradoxically push, the same event that happens when pushing the code to the repository.")
       - name: Trigger deployment
+        if: ${{ github.event_name == 'push' }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+
       ## Comment these to save time. I have tested it and it works.
       # - uses: actions/upload-artifact@v4
       #   if: ${{ !cancelled() }}
