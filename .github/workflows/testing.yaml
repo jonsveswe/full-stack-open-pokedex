@@ -38,12 +38,12 @@ jobs:
         run: exit 1
 
       - name: Test Failure
-          uses: rjstone/discord-webhook-notify@v1
-          if: failure()
-          with:
-              severity: error
-              details: Test Failed! Commit: ${{ join(github.event.commits.*.message) }} 
-              webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+            severity: error
+            details: Test Failed! Commit: ${{ join(github.event.commits.*.message) }} 
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
         
 
