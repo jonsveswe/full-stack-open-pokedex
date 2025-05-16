@@ -1,4 +1,4 @@
-name: Periodic Health Check
+name: PeriodicHealthCheck
 
 on:
   # schedule:
@@ -9,12 +9,12 @@ jobs:
   healthcheck:
     runs-on: ubuntu-latest
     steps:
-    - name: Healthcheck website
-      uses: jtalk/url-health-check-action@v4
-      with:
-        # Check the following URLs one by one sequentially
-        url: https://full-stack-open-pokedex-lyum.onrender.com/
-        # Follow redirects, or just report success on 3xx status codes
-        follow-redirect: false # Optional, defaults to "false"
-        # Fail this action after this many failed attempts
-        max-attempts: 1 # Optional, defaults to 1
+      - name: Healthcheck website
+        uses: jtalk/url-health-check-action@v4
+        with:
+          # Check the following URLs one by one sequentially
+          url: https://full-stack-open-pokedex-lyum.onrender.com/
+          # Follow redirects, or just report success on 3xx status codes
+          follow-redirect: false # Optional, defaults to "false"
+          # Fail this action after this many failed attempts
+          max-attempts: 1 # Optional, defaults to 1
