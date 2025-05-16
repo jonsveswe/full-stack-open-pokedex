@@ -35,6 +35,15 @@ jobs:
       #   run: npx playwright install --with-deps
       # - name: Run Playwright tests
       #   run: npm run test:e2e
+      
+      - name: github context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: condition
+        env:
+          CONDITION: ${{ env.CONDITION }}
+        run: echo "$CONDITION"
 
       # Don't trigger for a pull_request event, only for a push event.
       # ("When a pull request is merged, the name of the event is somehow paradoxically push, the same event that happens when pushing the code to the repository.")
