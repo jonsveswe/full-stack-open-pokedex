@@ -41,9 +41,9 @@ jobs:
         uses: rjstone/discord-webhook-notify@v1
         if: failure()
         with:
-            severity: error
-            details: Test Failed! Commit: ${{ join(github.event.commits.*.message) }} 
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          severity: error
+          details: Test Failed! Commit ${{ join(github.event.commits.*.message) }} 
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
         
 
