@@ -1,5 +1,8 @@
 name: Deployment pipeline
 
+env: 
+  CONDITION: ${{ contains(join(github.event.commits.*.message), '#skip') }}
+
 on:
   push:
     branches:
@@ -36,7 +39,7 @@ jobs:
       # Don't trigger for a pull_request event, only for a push event.
       # ("When a pull request is merged, the name of the event is somehow paradoxically push, the same event that happens when pushing the code to the repository.")
       - name: Trigger deployment
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' && !env.CONDITION }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
 
       ## Comment these to save time. I have tested it and it works.
