@@ -18,12 +18,12 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
       - name: Test Success
-        uses: rjstone/discord-webhook-notify@v1
         if: success()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@0.3.2
         with:
-            severity: info
-            details: Test Succeeded!
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          args: 'The project has been deployed.'
       - name: commits
         env:
           COMMITS: ${{ toJson(github.event.commits) }}
@@ -37,13 +37,13 @@ jobs:
         id: demo
         run: exit 1
 
-      - name: Test Failure
-        uses: rjstone/discord-webhook-notify@v1
+      - name: Test failure
         if: failure()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@0.3.2
         with:
-          severity: error
-          details: Test Failed!
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          args: 'The project has NOT been deployed.'
 
         
 
