@@ -17,6 +17,13 @@ jobs:
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
+      - name: Test Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+            severity: info
+            details: Test Succeeded!
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: commits
         env:
           COMMITS: ${{ toJson(github.event.commits) }}
@@ -25,6 +32,20 @@ jobs:
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         run: echo "$COMMIT_MESSAGES"
+
+      - name: Failing step
+        id: demo
+        run: exit 1
+
+      - name: Test Failure
+          uses: rjstone/discord-webhook-notify@v1
+          if: failure()
+          with:
+              severity: error
+              details: Test Failed! Commit: ${{ join(github.event.commits.*.message) }} 
+              webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+
+        
 
       # - name: contains
       #   env:
@@ -42,6 +63,14 @@ jobs:
       - name: test2
         if: ${{ env.CONDITION == 'false' }}
         run: echo "did not found skip"
+
+      - name: Test Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: success()
+        with:
+            severity: info
+            details: Test Succeeded 2!
+            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}       
 
   another_job:
     # Can't access env variables here. It says in the course it should work.
