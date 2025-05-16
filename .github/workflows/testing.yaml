@@ -38,14 +38,15 @@ jobs:
 
       - name: test1 
         if: ${{ env.CONDITION == 'true' }}
-        run: echo "skipped"
+        run: echo "found skip"
       - name: test2
         if: ${{ env.CONDITION == 'false' }}
-        run: echo "not skipped"
+        run: echo "did not found skip"
 
   another_job:
-    # needs: a_test_job
-    if: ${{ env.CONDITION == 'false' }}
+    # Can't access env variables here. It says in the course it should work.
+    # if: ${{ github.env.CONDITION == 'false' }}
+    if: ${{ !contains(join(github.event.commits.*.message), '#skip') }}
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
