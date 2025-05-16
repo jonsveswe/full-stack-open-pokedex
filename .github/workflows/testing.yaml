@@ -42,7 +42,7 @@ jobs:
         if: failure()
         with:
           severity: error
-          details: Test Failed! Commit ${{ join(github.event.commits.*.message) }} 
+          details: Test Failed!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
         
