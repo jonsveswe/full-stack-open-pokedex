@@ -1,0 +1,19 @@
+# .github/workflows/health-check.yml
+name: Periodic Health Check
+
+on:
+  # schedule:
+  #   - cron: '*/15 * * * *'  # Every 15 minutes
+  workflow_dispatch:        # Allow manual triggering
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    uses: jtalk/url-health-check-action@v4
+    with:
+      # Check the following URLs one by one sequentially
+      url: https://full-stack-open-pokedex-lyum.onrender.com/
+      # Follow redirects, or just report success on 3xx status codes
+      follow-redirect: false # Optional, defaults to "false"
+      # Fail this action after this many failed attempts
+      max-attempts: 1 # Optional, defaults to 1
